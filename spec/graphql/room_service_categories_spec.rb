@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Room Service Categories' do
   it 'returns all room service categories' do
-    categories = create_list(:room_service_category, 2)
+    category = create(:room_service_category)
 
     query_string = <<~GRAPHQL
       {
@@ -14,17 +14,10 @@ describe 'Room Service Categories' do
     GRAPHQL
 
     result = RoommateBackendSchema.execute(query_string)
+    result_data = result['data']['roomServiceCategories']
 
-    pp result if result['errors']
-
-    returned_categories = result['data']['roomServiceCategories']
-
-    categories.each do |category|
-      relevant_returned_category = returned_categories.detect { |c| c['id'] == category.id }
-
-      relevant_returned_category.each do |key, value|
-        expect(category[key]).to eq(value)
-      end
-    end
+    expect(result_data.count).to eq(1)
+    expect(result_data.first['id']).to eq(category.id)
+    expect(result_data.first['title']).to eq(category.title)
   end
 end
