@@ -30,5 +30,9 @@ module RoommateBackend
 
     # Don't generate factories.
     config.generators.factory_bot = false
+
+    # Use UUIDs for IDs.
+    # https://lab.io/articles/2017/04/13/uuids-rails-5-1/
+    config.generators.orm :active_record, primary_key_type: :uuid
   end
 end
