@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Room Service Categories' do
+describe 'roomServiceCategories' do
   it 'returns all room service categories' do
     category = create(:room_service_category)
 

@@ -6,4 +6,12 @@ Types::QueryType = GraphQL::ObjectType.define do
       RoomServiceCategory.all
     }
   end
+
+  field :roomServiceCategory, !Types::RoomServiceCategoryType do
+    argument :id, !types.ID
+
+    resolve ->(obj, args, ctx) {
+      RoomServiceCategory.find(args['id'])
+    }
+  end
 end
