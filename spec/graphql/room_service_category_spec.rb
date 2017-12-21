@@ -13,6 +13,8 @@ describe 'roomServiceCategory' do
           items {
             id
             title
+            description
+            price
           }
         }
       }
@@ -24,7 +26,11 @@ describe 'roomServiceCategory' do
     expect(returned_category['id']).to eq(category.id)
     expect(returned_category['title']).to eq(category.title)
     expect(returned_category['items'].count).to eq(1)
-    expect(returned_category['items'].first['id']).to eq(item.id)
-    expect(returned_category['items'].first['title']).to eq(item.title)
+
+    returned_item = returned_category['items'].first
+    expect(returned_item['id']).to eq(item.id)
+    expect(returned_item['title']).to eq(item.title)
+    expect(returned_item['description']).to eq(item.description)
+    expect(returned_item['price']).to eq(item.price.to_s)
   end
 end
