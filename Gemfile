@@ -14,6 +14,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'turbolinks', '~> 5'
 gem 'graphql', '~> 1.7', '>= 1.7.7'
 gem 'graphiql-rails', '~> 1.4', '>= 1.4.8'
+gem 'faker', '~> 1.8', '>= 1.8.7'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
