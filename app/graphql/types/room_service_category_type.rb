@@ -3,5 +3,5 @@ Types::RoomServiceCategoryType = GraphQL::ObjectType.define do
 
   field :id, !types.ID
   field :title, !types.String
-  field :items, !types[Types::RoomServiceItemType]
+  field :roomServiceItems, !types[Types::RoomServiceItemType], property: :room_service_items
 end
