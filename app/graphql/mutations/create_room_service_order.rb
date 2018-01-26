@@ -9,7 +9,7 @@ Mutations::CreateRoomServiceOrder = GraphQL::Field.define do
     order_args = args[:room_service_order].first.to_h
 
     cart_items_hash = {}
-    cart_items_args = order_args['room_service_cart_items'].each_with_index do |arg, index|
+    order_args['room_service_cart_items'].each_with_index do |arg, index|
       cart_items_hash[index.to_s] = arg.to_h
     end
 
