@@ -10,11 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171221132600) do
+ActiveRecord::Schema.define(version: 20180121182644) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pgcrypto"
+
+  create_table "room_service_cart_items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "room_service_item_id"
+    t.integer "quantity"
+    t.uuid "room_service_order_id"
+    t.index ["room_service_item_id"], name: "index_room_service_cart_items_on_room_service_item_id"
+    t.index ["room_service_order_id"], name: "index_room_service_cart_items_on_room_service_order_id"
+  end
 
   create_table "room_service_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
@@ -39,6 +47,13 @@ ActiveRecord::Schema.define(version: 20171221132600) do
     t.text "description"
   end
 
+  create_table "room_service_orders", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "special_request"
+    t.integer "payment_option"
+  end
+
+  add_foreign_key "room_service_cart_items", "room_service_items"
+  add_foreign_key "room_service_cart_items", "room_service_orders"
   add_foreign_key "room_service_categories_items", "room_service_categories"
   add_foreign_key "room_service_categories_items", "room_service_items"
 end

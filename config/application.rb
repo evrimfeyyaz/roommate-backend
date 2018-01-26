@@ -34,5 +34,8 @@ module RoommateBackend
     # Use UUIDs for IDs.
     # https://lab.io/articles/2017/04/13/uuids-rails-5-1/
     config.generators.orm :active_record, primary_key_type: :uuid
+
+    # Auto-load GraphQL mutations.
+    config.autoload_paths << Rails.root.join('app/graphql/mutations')
   end
 end

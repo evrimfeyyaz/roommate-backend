@@ -4,6 +4,7 @@ describe 'roomServiceCategories' do
   it 'returns all room service categories' do
     category = create(:room_service_category)
 
+    # TODO: Make this a named query.
     query_string = <<~GRAPHQL
       {
         roomServiceCategories {
