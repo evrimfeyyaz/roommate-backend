@@ -5,7 +5,7 @@ Mutations::CreateRoomServiceOrder = GraphQL::Field.define do
 
   argument :order, !RoomServiceOrderInputType
 
-  resolve ->(_obj, args, _ctx) {
+  resolve Rescuable.new ->(_obj, args, _ctx) {
     order_args = args[:order].to_h
 
     cart_items_hash = {}
