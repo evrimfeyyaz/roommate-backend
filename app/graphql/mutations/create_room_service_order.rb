@@ -3,10 +3,10 @@ Mutations::CreateRoomServiceOrder = GraphQL::Field.define do
 
   type Types::RoomServiceOrderType
 
-  argument :order, !types[!RoomServiceOrderInputType], as: :room_service_order
+  argument :order, !RoomServiceOrderInputType
 
   resolve ->(_obj, args, _ctx) {
-    order_args = args[:room_service_order].first.to_h
+    order_args = args[:order].to_h
 
     cart_items_hash = {}
     order_args['room_service_cart_items'].each_with_index do |arg, index|
