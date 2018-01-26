@@ -10,9 +10,9 @@ describe 'createRoomServiceOrder mutation' do
 
     mutation_string = <<~GRAPHQL
       mutation {
-        createRoomServiceOrder(roomServiceOrder: {
-          roomServiceCartItems: [
-            { roomServiceItemId: "#{item.id}", quantity: #{quantity} }
+        createRoomServiceOrder(order: {
+          cartItems: [
+            { itemId: "#{item.id}", quantity: #{quantity} }
           ],
           specialRequest: "#{special_request}",
           paymentOption: "#{payment_option}"
@@ -20,10 +20,10 @@ describe 'createRoomServiceOrder mutation' do
           id
           specialRequest
           paymentOption
-          roomServiceCartItems {
+          cartItems {
             id
             quantity
-            roomServiceItem {
+            item {
               id
             }
           }
@@ -35,7 +35,7 @@ describe 'createRoomServiceOrder mutation' do
     expect(result['errors']).to be_nil
 
     returned_order     = result['data']['createRoomServiceOrder']
-    returned_cart_item = returned_order['roomServiceCartItems'][0]
+    returned_cart_item = returned_order['cartItems'][0]
 
     created_order     = RoomServiceOrder.last
     created_cart_item = RoomServiceCartItem.last
@@ -43,10 +43,10 @@ describe 'createRoomServiceOrder mutation' do
     expect(returned_order['id']).to eq(created_order.id)
     expect(returned_order['specialRequest']).to eq(special_request)
     expect(returned_order['paymentOption']).to eq(payment_option)
-    expect(returned_order['roomServiceCartItems'].count).to eq(1)
+    expect(returned_order['cartItems'].count).to eq(1)
 
     expect(returned_cart_item['id']).to eq(created_cart_item.id)
     expect(returned_cart_item['quantity']).to eq(quantity)
-    expect(returned_cart_item['roomServiceItem']['id']).to eq(item.id)
+    expect(returned_cart_item['item']['id']).to eq(item.id)
   end
 end

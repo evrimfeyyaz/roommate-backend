@@ -11,7 +11,7 @@ describe 'roomServiceCategory' do
         roomServiceCategory(id: "#{category.id}") {
           id
           title
-          roomServiceItems {
+          items {
             id
             title
             description
@@ -28,9 +28,9 @@ describe 'roomServiceCategory' do
 
     expect(returned_category['id']).to eq(category.id)
     expect(returned_category['title']).to eq(category.title)
-    expect(returned_category['roomServiceItems'].count).to eq(1)
+    expect(returned_category['items'].count).to eq(1)
 
-    returned_item = returned_category['roomServiceItems'].first
+    returned_item = returned_category['items'].first
     expect(returned_item['id']).to eq(item.id)
     expect(returned_item['title']).to eq(item.title)
     expect(returned_item['description']).to eq(item.description)

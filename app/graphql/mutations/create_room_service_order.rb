@@ -3,7 +3,7 @@ Mutations::CreateRoomServiceOrder = GraphQL::Field.define do
 
   type Types::RoomServiceOrderType
 
-  argument :roomServiceOrder, !types[!RoomServiceOrderInputType], as: :room_service_order
+  argument :order, !types[!RoomServiceOrderInputType], as: :room_service_order
 
   resolve ->(_obj, args, _ctx) {
     order_args = args[:room_service_order].first.to_h
@@ -24,13 +24,13 @@ RoomServiceCartItemInputType = GraphQL::InputObjectType.define do
   name 'RoomServiceCartItemInputType'
 
   argument :quantity, !types.Int
-  argument :roomServiceItemId, !types.ID, as: :room_service_item_id
+  argument :itemId, !types.ID, as: :room_service_item_id
 end
 
 RoomServiceOrderInputType = GraphQL::InputObjectType.define do
   name 'RoomServiceOrderInputType'
 
-  argument :roomServiceCartItems, !types[!RoomServiceCartItemInputType], as: :room_service_cart_items
+  argument :cartItems, !types[!RoomServiceCartItemInputType], as: :room_service_cart_items
   argument :specialRequest, types.String, as: :special_request
   argument :paymentOption, !types.String, as: :payment_option
 end
