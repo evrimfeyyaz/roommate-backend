@@ -43,6 +43,7 @@ room_service_categories.each_with_index do |category, index|
   category = RoomServiceCategory.find_by(title: category[:title])
 
   items = []
+  thumbnail_image = Rails.root.join('seed/smoked-salmon-eggs-benedict-thumbnail.jpg').open
   Faker::UniqueGenerator.clear
   # We shuffle the descriptions to mix up the item order in each category.
   # Supplying the same random number generator retains this "random" order in each seeding.
@@ -50,11 +51,12 @@ room_service_categories.each_with_index do |category, index|
     items << {
       title: Faker::Food.unique.dish,
       description: food_description,
-      price: rand(1..50)
+      price: rand(1..50),
+      thumbnail: thumbnail_image
     }
   end
 
-  category.items << RoomServiceItem.create!(items)
+  category.room_service_items << RoomServiceItem.create!(items)
 
-  p "Created #{category.items.count} items in #{category.title}."
+  p "Created #{category.room_service_items.count} items in #{category.title}."
 end

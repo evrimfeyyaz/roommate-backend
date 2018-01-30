@@ -37,5 +37,7 @@ module RoommateBackend
 
     # Auto-load GraphQL mutations.
     config.autoload_paths << Rails.root.join('app/graphql/mutations')
+
+    config.asset_host = 'http://localhost:3000'
   end
 end
