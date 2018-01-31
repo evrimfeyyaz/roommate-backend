@@ -7,4 +7,6 @@ Types::RoomServiceItemType = GraphQL::ObjectType.define do
   field :price, types.String
   field :thumbnail1x, types.String, property: :thumbnail_1x
   field :thumbnail2x, types.String, property: :thumbnail_2x
+  field :image1x, types.String, property: :image_1x
+  field :image2x, types.String, property: :image_2x
 end

@@ -8,6 +8,18 @@ class RoomServiceItem < ApplicationRecord
   validates_presence_of :title
   validates_numericality_of :price, greater_than_or_equal_to: 0
 
+  def image_1x
+    return nil if image.blank?
+
+    ActionController::Base.helpers.image_url(image.versions[:one_x].url)
+  end
+
+  def image_2x
+    return nil if image.blank?
+
+    ActionController::Base.helpers.image_url(image.versions[:two_x].url)
+  end
+
   def thumbnail_1x
     return nil if thumbnail.blank?
 

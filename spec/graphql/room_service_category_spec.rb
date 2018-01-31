@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'roomServiceCategory' do
   it 'returns the room service category with a given ID' do
     category = create(:room_service_category)
-    item = create(:room_service_item_with_thumbnail, room_service_categories: [category])
+    item = create(:room_service_item, :with_thumbnail, :with_image, room_service_categories: [category])
 
     query_string = <<~GRAPHQL
       {
@@ -17,6 +17,8 @@ describe 'roomServiceCategory' do
             price
             thumbnail1x
             thumbnail2x
+            image1x
+            image2x
           }
         }
       }
@@ -37,9 +39,9 @@ describe 'roomServiceCategory' do
     expect(returned_item['description']).to eq(item.description)
     expect(returned_item['price']).to eq(item.price.to_s)
 
-    thumbnail_1x = ActionController::Base.helpers.image_url(item.thumbnail.versions[:one_x].url)
-    thumbnail_2x = ActionController::Base.helpers.image_url(item.thumbnail.versions[:two_x].url)
-    expect(returned_item['thumbnail1x']).to eq(thumbnail_1x)
-    expect(returned_item['thumbnail2x']).to eq(thumbnail_2x)
+    expect(returned_item['image1x']).to end_with('jpg')
+    expect(returned_item['image2x']).to end_with('jpg')
+    expect(returned_item['thumbnail1x']).to end_with('jpg')
+    expect(returned_item['thumbnail2x']).to end_with('jpg')
   end
 end
