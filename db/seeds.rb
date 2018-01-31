@@ -50,11 +50,13 @@ room_service_categories.each_with_index do |category, index|
     items << {
       title: Faker::Food.unique.dish,
       description: food_description,
-      price: rand(1..50)
+      price: rand(1..50),
+      thumbnail: Rails.root.join('seed/smoked-salmon-eggs-benedict-thumbnail.jpg').open,
+      image: Rails.root.join('seed/baked-dijon-salmon.jpg').open
     }
   end
 
-  category.items << RoomServiceItem.create!(items)
+  category.room_service_items << RoomServiceItem.create!(items)
 
-  p "Created #{category.items.count} items in #{category.title}."
+  p "Created #{category.room_service_items.count} items in #{category.title}."
 end

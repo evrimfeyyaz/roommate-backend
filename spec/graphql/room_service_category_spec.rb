@@ -3,9 +3,8 @@ require 'rails_helper'
 describe 'roomServiceCategory' do
   it 'returns the room service category with a given ID' do
     category = create(:room_service_category)
-    item = create(:room_service_item, room_service_categories: [category])
+    item = create(:room_service_item, :with_thumbnail, :with_image, room_service_categories: [category])
 
-    # TODO: Make this a named query.
     query_string = <<~GRAPHQL
       {
         roomServiceCategory(id: "#{category.id}") {
@@ -16,6 +15,10 @@ describe 'roomServiceCategory' do
             title
             description
             price
+            thumbnail1x
+            thumbnail2x
+            image1x
+            image2x
           }
         }
       }
@@ -35,5 +38,10 @@ describe 'roomServiceCategory' do
     expect(returned_item['title']).to eq(item.title)
     expect(returned_item['description']).to eq(item.description)
     expect(returned_item['price']).to eq(item.price.to_s)
+
+    expect(returned_item['image1x']).to end_with('jpg')
+    expect(returned_item['image2x']).to end_with('jpg')
+    expect(returned_item['thumbnail1x']).to end_with('jpg')
+    expect(returned_item['thumbnail2x']).to end_with('jpg')
   end
 end
