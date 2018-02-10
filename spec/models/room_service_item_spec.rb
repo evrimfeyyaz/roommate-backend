@@ -5,6 +5,7 @@ describe RoomServiceItem do
   it { should validate_numericality_of(:price).is_greater_than_or_equal_to(0) }
 
   it { should have_many(:room_service_categories).through(:room_service_categories_items) }
+  it { should have_many(:room_service_item_choices).through(:room_service_item_choices_items) }
 
   describe '#image_1x and #image_2x' do
     it 'should return the URL for the image with the scale of 1x and 2x' do

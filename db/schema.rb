@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180130174229) do
+ActiveRecord::Schema.define(version: 20180131174847) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,30 @@ ActiveRecord::Schema.define(version: 20180130174229) do
     t.index ["room_service_item_id"], name: "index_room_service_categories_items_on_room_service_item_id"
   end
 
+  create_table "room_service_item_choice_options", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.decimal "price"
+    t.uuid "room_service_item_choice_id"
+    t.index ["room_service_item_choice_id"], name: "room_service_item_choices_on_options"
+  end
+
+  create_table "room_service_item_choices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.boolean "optional"
+    t.boolean "allows_multiple_selections"
+    t.integer "minimum_number_of_selections"
+    t.integer "maximum_number_of_selections"
+    t.uuid "default_option_id"
+    t.index ["default_option_id"], name: "index_room_service_item_choices_on_default_option_id"
+  end
+
+  create_table "room_service_item_choices_items", id: false, force: :cascade do |t|
+    t.uuid "room_service_item_choice_id", null: false
+    t.uuid "room_service_item_id", null: false
+    t.index ["room_service_item_choice_id", "room_service_item_id"], name: "room_service_item_choices_on_items"
+    t.index ["room_service_item_id", "room_service_item_choice_id"], name: "room_service_items_on_item_choices"
+  end
+
   create_table "room_service_items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
@@ -58,4 +82,6 @@ ActiveRecord::Schema.define(version: 20180130174229) do
   add_foreign_key "room_service_cart_items", "room_service_orders"
   add_foreign_key "room_service_categories_items", "room_service_categories"
   add_foreign_key "room_service_categories_items", "room_service_items"
+  add_foreign_key "room_service_item_choice_options", "room_service_item_choices"
+  add_foreign_key "room_service_item_choices", "room_service_item_choice_options", column: "default_option_id"
 end

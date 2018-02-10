@@ -10,5 +10,15 @@ FactoryBot.define do
     trait :with_image do
       image { Rails.root.join('seed/baked-dijon-salmon.jpg').open }
     end
+
+    factory :room_service_item_with_choices do
+      transient do
+        choices_count 2
+      end
+
+      after(:build) do |item, evaluator|
+        item.room_service_item_choices << build_list(:room_service_item_choice, evaluator.choices_count)
+      end
+    end
   end
 end
