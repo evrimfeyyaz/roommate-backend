@@ -25,6 +25,7 @@ RoomServiceCartItemInputType = GraphQL::InputObjectType.define do
 
   argument :quantity, !types.Int
   argument :itemId, !types.ID, as: :room_service_item_id
+  argument :selectedOptionIds, !types[types.ID], as: :selected_option_ids
 end
 
 RoomServiceOrderInputType = GraphQL::InputObjectType.define do

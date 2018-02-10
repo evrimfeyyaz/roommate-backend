@@ -1,0 +1,4 @@
+class RoomServiceCartItemsItemChoiceOption < ApplicationRecord
+  belongs_to :room_service_item_choice_option
+  belongs_to :room_service_cart_item
+end

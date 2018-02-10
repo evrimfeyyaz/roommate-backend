@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180131174847) do
+ActiveRecord::Schema.define(version: 20180210105826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,13 @@ ActiveRecord::Schema.define(version: 20180131174847) do
     t.uuid "room_service_order_id"
     t.index ["room_service_item_id"], name: "index_room_service_cart_items_on_room_service_item_id"
     t.index ["room_service_order_id"], name: "index_room_service_cart_items_on_room_service_order_id"
+  end
+
+  create_table "room_service_cart_items_item_choice_options", id: false, force: :cascade do |t|
+    t.uuid "room_service_cart_item_id", null: false
+    t.uuid "room_service_item_choice_option_id", null: false
+    t.index ["room_service_cart_item_id", "room_service_item_choice_option_id"], name: "room_service_cart_items_on_item_choice_options"
+    t.index ["room_service_item_choice_option_id", "room_service_cart_item_id"], name: "room_service_item_choice_options_on_cart_items"
   end
 
   create_table "room_service_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
