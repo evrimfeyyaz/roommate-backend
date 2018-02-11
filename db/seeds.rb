@@ -31,6 +31,47 @@ food_descriptions = [
   'Granny Smith apples mixed with brown sugar and butter filling, in a flaky all-butter crust, with ice cream.'
 ]
 
+# Create room service item choices and options.
+toppings_choice = RoomServiceItemChoice.new(title: 'Toppings')
+toppings_choice.room_service_item_choice_options << [
+  RoomServiceItemChoiceOption.new(title: 'Mango Salsa', price: 0.500),
+  RoomServiceItemChoiceOption.new(title: 'Guacamole', price: 0.700),
+  RoomServiceItemChoiceOption.new(title: 'Lime'),
+  RoomServiceItemChoiceOption.new(title: 'Crushed Nachos'),
+  RoomServiceItemChoiceOption.new(title: 'Cheese'),
+  RoomServiceItemChoiceOption.new(title: 'Sour Cream'),
+  RoomServiceItemChoiceOption.new(title: 'Jalapenos')
+]
+toppings_choice.save!
+
+sauce_choice = RoomServiceItemChoice.new(title: 'Sauce',
+                                         minimum_number_of_selections: 1,
+                                         maximum_number_of_selections: 1)
+sauce_choice.room_service_item_choice_options << [
+  RoomServiceItemChoiceOption.new(title: 'No Sauce'),
+  RoomServiceItemChoiceOption.new(title: 'Lime Yogurt'),
+  RoomServiceItemChoiceOption.new(title: 'Chile Con Queso'),
+  RoomServiceItemChoiceOption.new(title: 'Spicy Chipotle')
+]
+sauce_choice.default_option = sauce_choice.room_service_item_choice_options.first
+sauce_choice.save!
+
+extras_choice = RoomServiceItemChoice.new(title: 'Extras',
+                                          minimum_number_of_selections: 1,
+                                          maximum_number_of_selections: 5)
+extras_choice.room_service_item_choice_options << [
+  RoomServiceItemChoiceOption.new(title: 'Mango Salsa', price: 0.500),
+  RoomServiceItemChoiceOption.new(title: 'Guacamole', price: 0.700),
+  RoomServiceItemChoiceOption.new(title: 'Lime'),
+  RoomServiceItemChoiceOption.new(title: 'Crushed Nachos'),
+  RoomServiceItemChoiceOption.new(title: 'Cheese'),
+  RoomServiceItemChoiceOption.new(title: 'Sour Cream'),
+  RoomServiceItemChoiceOption.new(title: 'Jalapenos')
+]
+extras_choice.save!
+
+p "Created #{RoomServiceItemChoice.count} room service item choices and #{RoomServiceItemChoiceOption.count} options."
+
 # Ensure we get the same items each time the database is seeded.
 Faker::Config.random = Random.new(42)
 
@@ -48,11 +89,11 @@ room_service_categories.each_with_index do |category, index|
   # Supplying the same random number generator retains this "random" order in each seeding.
   food_descriptions.shuffle(random: Random.new(index)).each do |food_description|
     items << {
-      title: Faker::Food.unique.dish,
+      title:       Faker::Food.unique.dish,
       description: food_description,
-      price: rand(1..50),
-      thumbnail: Rails.root.join('seed/smoked-salmon-eggs-benedict-thumbnail.jpg').open,
-      image: Rails.root.join('seed/baked-dijon-salmon.jpg').open
+      price:       rand(1..50),
+      thumbnail:   Rails.root.join('seed/smoked-salmon-eggs-benedict-thumbnail.jpg').open,
+      image:       Rails.root.join('seed/baked-dijon-salmon.jpg').open
     }
   end
 
