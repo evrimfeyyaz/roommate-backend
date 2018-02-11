@@ -2,7 +2,7 @@ class RoomServiceItemChoice < ApplicationRecord
   has_many :room_service_item_choices_items
   has_many :room_service_items, through: :room_service_item_choices_items
   has_many :room_service_item_choice_options
-  belongs_to :default_option, class_name: 'RoomServiceItemChoiceOption'
+  belongs_to :default_option, class_name: 'RoomServiceItemChoiceOption', optional: true
 
   validates_presence_of :title
   validates_length_of :room_service_item_choice_options, minimum: 2

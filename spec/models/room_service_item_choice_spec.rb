@@ -4,6 +4,7 @@ describe RoomServiceItemChoice do
   it { should have_many(:room_service_items).through(:room_service_item_choices_items) }
   it { should have_many(:room_service_item_choice_options) }
   it { should belong_to(:default_option) }
+  it { should allow_value(nil).for(:default_option) }
 
   it { should validate_presence_of :title }
   it { should validate_numericality_of(:minimum_number_of_selections).is_greater_than(0).only_integer }
