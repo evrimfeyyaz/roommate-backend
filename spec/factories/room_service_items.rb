@@ -11,30 +11,6 @@ FactoryBot.define do
       image { Rails.root.join('seed/baked-dijon-salmon.jpg').open }
     end
 
-    trait :with_mandatory_choice do
-      after(:build) do |item|
-        item.room_service_item_choices << build(:room_service_item_choice, :mandatory)
-      end
-    end
-
-    trait :with_optional_choice do
-      after(:build) do |item|
-        item.room_service_item_choices << build(:room_service_item_choice, :optional)
-      end
-    end
-
-    trait :with_single_option_choice do
-      after(:build) do |item|
-        item.room_service_item_choices << build(:room_service_item_choice, :single_selection)
-      end
-    end
-
-    trait :with_multiple_option_choice do
-      after(:build) do |item|
-        item.room_service_item_choices << build(:room_service_item_choice, :multiple_selection)
-      end
-    end
-
     factory :room_service_item_with_choices do
       transient do
         choices_count 2

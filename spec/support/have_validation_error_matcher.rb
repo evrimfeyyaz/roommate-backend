@@ -1,8 +1,13 @@
 RSpec::Matchers.define :have_validation_error_on do |on_attribute|
   match do |object|
-    object.errors.details[on_attribute].present? &&
-      object.errors.details[on_attribute].any? { |error| error[:error] == @message_symbol } &&
-      object.errors[on_attribute].include?(@message_string)
+    if @message_symbol.present? &&
+       object.errors.details[on_attribute].empty? { |error| error[:error] == @message_symbol }
+      return false
+    end
+
+    return false if @message_string.present? && object.errors[on_attribute].exclude?(@message_string)
+
+    return true
   end
 
   chain :with_message_symbol, :message_symbol

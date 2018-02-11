@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180210105826) do
+ActiveRecord::Schema.define(version: 20180211090609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,8 +55,6 @@ ActiveRecord::Schema.define(version: 20180210105826) do
 
   create_table "room_service_item_choices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
-    t.boolean "optional"
-    t.boolean "allows_multiple_selections"
     t.integer "minimum_number_of_selections"
     t.integer "maximum_number_of_selections"
     t.uuid "default_option_id"

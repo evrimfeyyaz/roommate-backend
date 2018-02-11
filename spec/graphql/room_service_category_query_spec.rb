@@ -29,8 +29,6 @@ describe 'roomServiceCategory query' do
             choices {
               id
               title
-              optional
-              allowsMultipleSelections
               minimumNumberOfSelections
               maximumNumberOfSelections
               defaultOptionId
@@ -68,8 +66,6 @@ describe 'roomServiceCategory query' do
     expect(returned_item['choices'].length).to eq(1)
     returned_choice = returned_item['choices'].first
     expect(returned_choice['title']).to eq(choice.title)
-    expect(returned_choice['optional']).to eq(choice.optional)
-    expect(returned_choice['allowsMultipleSelections']).to eq(choice.allows_multiple_selections)
     expect(returned_choice['maximumNumberOfSelections']).to eq(choice.maximum_number_of_selections)
     expect(returned_choice['minimumNumberOfSelections']).to eq(choice.minimum_number_of_selections)
     expect(returned_choice['defaultOptionId']).to eq(choice.default_option_id)

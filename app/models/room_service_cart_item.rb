@@ -8,38 +8,42 @@ class RoomServiceCartItem < ApplicationRecord
            source:     :room_service_item_choice_option
 
   validates_numericality_of :quantity, greater_than: 0, only_integer: true
-  validate :existence_of_selection_for_mandatory_choices
-  validate :single_selection_for_single_option_choices
+  validate :has_at_least_minimum_number_of_selections_made_for_all_choices
+  validate :has_at_most_maximum_number_of_selections_made_for_all_choices
 
   private
 
-    def selected_option_for_choice?(choice)
-      (choice.room_service_item_choice_option_ids & selected_option_ids).any?
+    def number_of_selections_for_choice(choice)
+      (choice.room_service_item_choice_option_ids & selected_option_ids).length
     end
 
-    def single_or_no_selected_option_for_choice?(choice)
-      (choice.room_service_item_choice_option_ids & selected_option_ids).length <= 1
-    end
+    def has_at_least_minimum_number_of_selections_made_for_all_choices
+      return if room_service_item.nil?
 
-    def existence_of_selection_for_mandatory_choices
-      room_service_item&.room_service_item_choices&.each do |choice|
-        unless choice.optional || selected_option_for_choice?(choice)
-          errors.add(:selected_options, :does_not_include_selection_for_mandatory_choice,
-                     message:      'should include a selection for "%{choice_title}"',
-                     choice_title: choice.title,
-                     choice_id:    choice.id)
-        end
+      room_service_item.room_service_item_choices.each do |choice|
+        next if choice.minimum_number_of_selections.nil?
+        next if number_of_selections_for_choice(choice) >= choice.minimum_number_of_selections
+
+        errors.add(:selected_options, :less_than_minimum_number_of_selections_made,
+                   message:                             'should include at least %{choice_minimum_number_of_selections} selection(s) for "%{choice_title}"',
+                   choice_title:                        choice.title,
+                   choice_minimum_number_of_selections: choice.minimum_number_of_selections,
+                   choice_id:                           choice.id)
       end
     end
 
-    def single_selection_for_single_option_choices
-      room_service_item&.room_service_item_choices&.each do |choice|
-        unless choice.allows_multiple_selections || single_or_no_selected_option_for_choice?(choice)
-          errors.add(:selected_options, :includes_multiple_selections_for_single_option_choice,
-                     message:      'can only include one selection for "%{choice_title}"',
-                     choice_title: choice.title,
-                     choice_id:    choice.id)
-        end
+    def has_at_most_maximum_number_of_selections_made_for_all_choices
+      return if room_service_item.nil?
+
+      room_service_item.room_service_item_choices.each do |choice|
+        next if choice.maximum_number_of_selections.nil?
+        next if number_of_selections_for_choice(choice) <= choice.maximum_number_of_selections
+
+        errors.add(:selected_options, :more_than_maximum_number_of_selections_made,
+                   message:                             'should include at most %{choice_maximum_number_of_selections} selection(s) for "%{choice_title}"',
+                   choice_title:                        choice.title,
+                   choice_maximum_number_of_selections: choice.maximum_number_of_selections,
+                   choice_id:                           choice.id)
       end
     end
 end
