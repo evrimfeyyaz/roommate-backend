@@ -36,6 +36,7 @@ describe 'roomServiceCategory query' do
                 id
                 title
                 price
+                choiceId
               }
             }
           }
@@ -74,8 +75,10 @@ describe 'roomServiceCategory query' do
     returned_option_1 = returned_choice['options'].first
     expect(returned_option_1['title']).to eq(option_1.title)
     expect(returned_option_1['price']).to eq(option_1.price)
+    expect(returned_option_1['choiceId']).to eq(choice.id)
     returned_option_2 = returned_choice['options'].last
     expect(returned_option_2['title']).to eq(option_2.title)
     expect(returned_option_2['price']).to eq(option_2.price)
+    expect(returned_option_2['choiceId']).to eq(choice.id)
   end
 end
