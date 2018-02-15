@@ -44,7 +44,7 @@ toppings_choice.room_service_item_choice_options << [
 ]
 toppings_choice.save!
 
-sauce_choice = RoomServiceItemChoice.new(title: 'Sauce',
+sauce_choice = RoomServiceItemChoice.new(title:                        'Sauce',
                                          minimum_number_of_selections: 1,
                                          maximum_number_of_selections: 1)
 sauce_choice.room_service_item_choice_options << [
@@ -56,7 +56,7 @@ sauce_choice.room_service_item_choice_options << [
 sauce_choice.default_option = sauce_choice.room_service_item_choice_options.first
 sauce_choice.save!
 
-extras_choice = RoomServiceItemChoice.new(title: 'Extras',
+extras_choice = RoomServiceItemChoice.new(title:                        'Extras',
                                           minimum_number_of_selections: 1,
                                           maximum_number_of_selections: 5)
 extras_choice.room_service_item_choice_options << [
@@ -89,11 +89,12 @@ room_service_categories.each_with_index do |category, index|
   # Supplying the same random number generator retains this "random" order in each seeding.
   food_descriptions.shuffle(random: Random.new(index)).each do |food_description|
     items << {
-      title:       Faker::Food.unique.dish,
-      description: food_description,
-      price:       rand(1..50),
-      thumbnail:   Rails.root.join('seed/smoked-salmon-eggs-benedict-thumbnail.jpg').open,
-      image:       Rails.root.join('seed/baked-dijon-salmon.jpg').open
+      title:                     Faker::Food.unique.dish,
+      description:               food_description,
+      price:                     rand(1..50),
+      thumbnail: Rails.root.join('seed/smoked-salmon-eggs-benedict-thumbnail.jpg').open,
+      image: Rails.root.join('seed/baked-dijon-salmon.jpg').open,
+      room_service_item_choices: [toppings_choice, sauce_choice, extras_choice]
     }
   end
 
