@@ -97,4 +97,56 @@ describe RoomServiceItemChoice do
       end
     end
   end
+
+  describe 'validate existence of default option if single selection choice' do
+    subject { build(:room_service_item_choice) }
+
+    context 'when the choice is single selection' do
+      before(:each) do
+        subject.maximum_number_of_selections = 1
+      end
+
+      it 'passes if default option ID exists' do
+        subject.default_option = subject.room_service_item_choice_options.first
+
+        subject.validate
+
+        expect(subject).not_to have_validation_error_on(:default_option)
+                                 .with_message_symbol(:should_exist)
+      end
+
+      it 'does not pass if default option ID is missing' do
+        subject.default_option = nil
+
+        subject.validate
+
+        expect(subject).to have_validation_error_on(:default_option)
+                             .with_message_symbol(:should_exist)
+      end
+    end
+
+    context 'when the choice is multiple selection' do
+      before(:each) do
+        subject.maximum_number_of_selections = 2
+      end
+
+      it 'passes if default option ID exists' do
+        subject.default_option = subject.room_service_item_choice_options.first
+
+        subject.validate
+
+        expect(subject).not_to have_validation_error_on(:default_option)
+                                 .with_message_symbol(:should_exist)
+      end
+
+      it 'passes if default option ID is missing' do
+        subject.default_option = nil
+
+        subject.validate
+
+        expect(subject).not_to have_validation_error_on(:default_option)
+                                 .with_message_symbol(:should_exist)
+      end
+    end
+  end
 end
