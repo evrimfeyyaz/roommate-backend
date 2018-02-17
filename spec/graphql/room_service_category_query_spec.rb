@@ -4,12 +4,13 @@ describe 'roomServiceCategory query' do
   it 'returns the room service category with a given ID' do
     category = create(:room_service_category)
     item     = create(:room_service_item_with_choices,
-                      :with_thumbnail, :with_image,
+                      :with_thumbnail, :with_image, :with_tag,
                       room_service_categories: [category],
                       choices_count:           1)
     choice   = item.room_service_item_choices.first
-    option_1 = choice.room_service_item_choice_options.first
-    option_2 = choice.room_service_item_choice_options.last
+    tag      = item.room_service_item_tags.first
+    option1  = choice.room_service_item_choice_options.first
+    option2  = choice.room_service_item_choice_options.last
 
     # TODO: Make this a named query.
     query_string = <<~GRAPHQL
@@ -38,6 +39,10 @@ describe 'roomServiceCategory query' do
                 price
                 choiceId
               }
+            }
+            tags {
+              id
+              title
             }
           }
         }
@@ -71,14 +76,18 @@ describe 'roomServiceCategory query' do
     expect(returned_choice['minimumNumberOfSelections']).to eq(choice.minimum_number_of_selections)
     expect(returned_choice['defaultOptionId']).to eq(choice.default_option_id)
 
+    expect(returned_item['tags'].length).to eq(1)
+    returned_tag = returned_item['tags'].first
+    expect(returned_tag['title']).to eq(tag.title)
+
     expect(returned_choice['options'].length).to eq(2)
-    returned_option_1 = returned_choice['options'].first
-    expect(returned_option_1['title']).to eq(option_1.title)
-    expect(returned_option_1['price']).to eq(option_1.price)
-    expect(returned_option_1['choiceId']).to eq(choice.id)
-    returned_option_2 = returned_choice['options'].last
-    expect(returned_option_2['title']).to eq(option_2.title)
-    expect(returned_option_2['price']).to eq(option_2.price)
-    expect(returned_option_2['choiceId']).to eq(choice.id)
+    returned_option1 = returned_choice['options'].first
+    expect(returned_option1['title']).to eq(option1.title)
+    expect(returned_option1['price']).to eq(option1.price)
+    expect(returned_option1['choiceId']).to eq(choice.id)
+    returned_option2 = returned_choice['options'].last
+    expect(returned_option2['title']).to eq(option2.title)
+    expect(returned_option2['price']).to eq(option2.price)
+    expect(returned_option2['choiceId']).to eq(choice.id)
   end
 end
