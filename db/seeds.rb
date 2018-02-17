@@ -14,6 +14,19 @@ room_service_categories = [
   { title: 'Mocktails' }
 ]
 
+room_service_item_tags = [
+  { title: 'Cereals' },
+  { title: 'Seafood' },
+  { title: 'Dairy' },
+  { title: 'Nuts & Seeds' },
+  { title: 'Eggs' },
+  { title: 'Mustard & Celery' },
+  { title: 'Soya' },
+  { title: 'Spicy' },
+  { title: 'Healthy' },
+  { title: 'Vegetarian' }
+]
+
 food_descriptions = [
   'Three eggs with cilantro, tomatoes, onions, avocados and melted Emmental cheese. With a side of roasted potatoes, and your choice of toast or croissant.',
   'Three egg omelet with Roquefort cheese, chives, and ham. With a side of roasted potatoes, and your choice of toast or croissant.',
@@ -79,6 +92,10 @@ Faker::Config.random = Random.new(42)
 RoomServiceCategory.create!(room_service_categories)
 p "Created #{RoomServiceCategory.count} room service categories."
 
+# Create room service item tags.
+RoomServiceItemTag.create!(room_service_item_tags)
+p "Created #{RoomServiceItemTag.count} room service item tags."
+
 # Create items in each category.
 room_service_categories.each_with_index do |category, index|
   category = RoomServiceCategory.find_by(title: category[:title])
@@ -92,9 +109,10 @@ room_service_categories.each_with_index do |category, index|
       title:                     Faker::Food.unique.dish,
       description:               food_description,
       price:                     rand(1..50),
-      thumbnail: Rails.root.join('seed/smoked-salmon-eggs-benedict-thumbnail.jpg').open,
-      image: Rails.root.join('seed/baked-dijon-salmon.jpg').open,
-      room_service_item_choices: [toppings_choice, sauce_choice, extras_choice]
+      thumbnail:                 Rails.root.join('seed/smoked-salmon-eggs-benedict-thumbnail.jpg').open,
+      image:                     Rails.root.join('seed/baked-dijon-salmon.jpg').open,
+      room_service_item_choices: [toppings_choice, sauce_choice, extras_choice],
+      room_service_item_tags: RoomServiceItemTag.all.sample(rand(1...RoomServiceItemTag.count))
     }
   end
 
