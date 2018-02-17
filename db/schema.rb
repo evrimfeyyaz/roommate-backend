@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180211090609) do
+ActiveRecord::Schema.define(version: 20180217170400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,17 @@ ActiveRecord::Schema.define(version: 20180211090609) do
     t.uuid "room_service_item_id", null: false
     t.index ["room_service_item_choice_id", "room_service_item_id"], name: "room_service_item_choices_on_items"
     t.index ["room_service_item_id", "room_service_item_choice_id"], name: "room_service_items_on_item_choices"
+  end
+
+  create_table "room_service_item_tags", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+  end
+
+  create_table "room_service_item_tags_items", id: false, force: :cascade do |t|
+    t.uuid "room_service_item_id", null: false
+    t.uuid "room_service_item_tag_id", null: false
+    t.index ["room_service_item_id", "room_service_item_tag_id"], name: "room_service_items_on_tags"
+    t.index ["room_service_item_tag_id", "room_service_item_id"], name: "room_service_tags_on_items"
   end
 
   create_table "room_service_items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
