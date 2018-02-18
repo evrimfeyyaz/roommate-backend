@@ -2,15 +2,17 @@ require 'rails_helper'
 
 describe 'roomServiceCategory query' do
   it 'returns the room service category with a given ID' do
-    category = create(:room_service_category, :currently_unavailable)
-    item     = create(:room_service_item_with_choices,
-                      :with_thumbnail, :with_image, :with_tag,
-                      room_service_categories: [category],
-                      choices_count:           1)
-    choice   = item.room_service_item_choices.first
-    tag      = item.room_service_item_tags.first
-    option1  = choice.room_service_item_choice_options.first
-    option2  = choice.room_service_item_choice_options.last
+    available_from  = '18:00'
+    available_until = '23:00'
+    category        = create(:room_service_category, available_from: available_from, available_until: available_until)
+    item            = create(:room_service_item_with_choices,
+                             :with_thumbnail, :with_image, :with_tag,
+                             room_service_categories: [category],
+                             choices_count:           1)
+    choice          = item.room_service_item_choices.first
+    tag             = item.room_service_item_tags.first
+    option1         = choice.room_service_item_choice_options.first
+    option2         = choice.room_service_item_choice_options.last
 
     # TODO: Make this a named query.
     query_string = <<~GRAPHQL
@@ -58,8 +60,8 @@ describe 'roomServiceCategory query' do
 
     expect(returned_category['id']).to eq(category.id)
     expect(returned_category['title']).to eq(category.title)
-    expect(returned_category['availableFrom']).to eq(category.available_from.to_s)
-    expect(returned_category['availableUntil']).to eq(category.available_until.to_s)
+    expect(returned_category['availableFrom']).to eq(available_from)
+    expect(returned_category['availableUntil']).to eq(available_until)
 
     expect(returned_category['items'].count).to eq(1)
     returned_item = returned_category['items'].first

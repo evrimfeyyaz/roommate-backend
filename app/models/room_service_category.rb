@@ -4,6 +4,9 @@ class RoomServiceCategory < ApplicationRecord
 
   validates_presence_of :title
 
+  attribute :available_from, :hours_and_minutes
+  attribute :available_until, :hours_and_minutes
+
   def available?
     return true if available_from.nil? || available_until.nil?
 

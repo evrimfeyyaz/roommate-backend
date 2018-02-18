@@ -1,0 +1,1 @@
+ActiveRecord::Type.register(:hours_and_minutes, HoursAndMinutesType)

@@ -6,6 +6,26 @@ describe RoomServiceCategory do
 
   it { should validate_presence_of(:title) }
 
+  describe '#available_from' do
+    it 'returns the time in HH:MM format' do
+      Timecop.freeze(Time.zone.parse('2000-01-01 4:00:00')) do
+        subject = create(:room_service_category, available_from: 1.hour.ago)
+
+        expect(subject.available_from).to eq('03:00')
+      end
+    end
+  end
+
+  describe '#available_until' do
+    it 'returns the time in HH:MM format' do
+      Timecop.freeze(Time.zone.parse('2000-01-01 4:00:00')) do
+        subject = create(:room_service_category, available_until: 1.hour.ago)
+
+        expect(subject.available_until).to eq('03:00')
+      end
+    end
+  end
+
   describe '#available?' do
     around(:each) do |example|
       Time.use_zone('Hawaii') do
