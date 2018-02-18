@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'roomServiceCategory query' do
   it 'returns the room service category with a given ID' do
-    category = create(:room_service_category)
+    category = create(:room_service_category, :currently_unavailable)
     item     = create(:room_service_item_with_choices,
                       :with_thumbnail, :with_image, :with_tag,
                       room_service_categories: [category],
@@ -18,6 +18,8 @@ describe 'roomServiceCategory query' do
         roomServiceCategory(id: "#{category.id}") {
           id
           title
+          available_from
+          available_until
           items {
             id
             title
@@ -56,8 +58,10 @@ describe 'roomServiceCategory query' do
 
     expect(returned_category['id']).to eq(category.id)
     expect(returned_category['title']).to eq(category.title)
-    expect(returned_category['items'].count).to eq(1)
+    expect(returned_category['availableFrom']).to eq(category.available_from)
+    expect(returned_category['availableUntil']).to eq(category.available_until)
 
+    expect(returned_category['items'].count).to eq(1)
     returned_item = returned_category['items'].first
     expect(returned_item['id']).to eq(item.id)
     expect(returned_item['title']).to eq(item.title)
