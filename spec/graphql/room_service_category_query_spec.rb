@@ -18,8 +18,8 @@ describe 'roomServiceCategory query' do
         roomServiceCategory(id: "#{category.id}") {
           id
           title
-          available_from
-          available_until
+          availableFrom
+          availableUntil
           items {
             id
             title
@@ -58,8 +58,8 @@ describe 'roomServiceCategory query' do
 
     expect(returned_category['id']).to eq(category.id)
     expect(returned_category['title']).to eq(category.title)
-    expect(returned_category['availableFrom']).to eq(category.available_from)
-    expect(returned_category['availableUntil']).to eq(category.available_until)
+    expect(returned_category['availableFrom']).to eq(category.available_from.to_s)
+    expect(returned_category['availableUntil']).to eq(category.available_until.to_s)
 
     expect(returned_category['items'].count).to eq(1)
     returned_item = returned_category['items'].first
