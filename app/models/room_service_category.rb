@@ -4,24 +4,37 @@ class RoomServiceCategory < ApplicationRecord
 
   validates_presence_of :title
 
-  attribute :available_from, :hours_and_minutes
-  attribute :available_until, :hours_and_minutes
+  def available_from
+    as_hours_and_minutes(self[:available_from])
+  end
+
+  def available_until
+    as_hours_and_minutes(self[:available_until])
+  end
 
   def available?
-    return true if available_from.nil? || available_until.nil?
+    return true if available_from.blank? && available_until.blank?
 
-    time_between?(Time.current, available_from, available_until)
+    current_time = as_hours_and_minutes(Time.current)
+    time_between?(current_time, available_from, available_until)
   end
 
   private
 
     def time_between?(time, from, til)
-      time = time.strftime('%H:%M')
-      from = from.strftime('%H:%M')
-      til  = til.strftime('%H:%M')
+      from = '00:00' if from.blank?
+      til  = '23:59' if til.blank?
 
       return time >= from && time <= til if from <= til
 
       time >= from || time <= til
+    end
+
+    def as_hours_and_minutes(time)
+      return nil if time.blank?
+
+      Time.use_zone('UTC') do
+        return Time.parse(time.to_s).strftime('%H:%M')
+      end
     end
 end

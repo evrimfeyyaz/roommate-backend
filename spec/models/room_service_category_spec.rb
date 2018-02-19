@@ -9,8 +9,9 @@ describe RoomServiceCategory do
   describe '#available_from' do
     it 'returns the time in HH:MM format' do
       Timecop.freeze(Time.zone.parse('2000-01-01 4:00:00')) do
-        subject = create(:room_service_category, available_from: 1.hour.ago)
+        subject.available_from = 1.hour.ago
 
+        expect(subject.available_from).to be_a(String)
         expect(subject.available_from).to eq('03:00')
       end
     end
@@ -19,8 +20,9 @@ describe RoomServiceCategory do
   describe '#available_until' do
     it 'returns the time in HH:MM format' do
       Timecop.freeze(Time.zone.parse('2000-01-01 4:00:00')) do
-        subject = create(:room_service_category, available_until: 1.hour.ago)
+        subject.available_until = 1.hour.ago
 
+        expect(subject.available_until).to be_a(String)
         expect(subject.available_until).to eq('03:00')
       end
     end
@@ -28,12 +30,13 @@ describe RoomServiceCategory do
 
   describe '#available?' do
     around(:each) do |example|
+      # Trying a time zone apart from UTC to make sure it works properly anyways.
       Time.use_zone('Hawaii') do
         example.run
       end
     end
 
-    context 'when #available_from and #available_until exist' do
+    context 'when #available_from and #available_until are both present' do
       context 'and the current time is within available hours' do
         it 'returns true' do
           # Check out https://stackoverflow.com/questions/34978905/rails-activerecord-postgres-time-format
@@ -55,12 +58,60 @@ describe RoomServiceCategory do
       end
     end
 
-    context 'when #avaiable_from and #available_to do not exist' do
+    context 'when #avaiable_from and #available_to are both blank' do
       it 'returns true' do
         subject.available_from  = nil
         subject.available_until = nil
 
         expect(subject.available?).to be true
+      end
+    end
+
+    context 'when #available_from is blank but #available_until is present' do
+      around(:each) do |example|
+        Timecop.freeze(Time.zone.parse('2000-01-01 18:00:00')) do
+          example.run
+        end
+      end
+
+      before(:each) do
+        subject.available_from = nil
+      end
+
+      it 'returns true when the current time is before #available_until' do
+        subject.available_until = '19:00'
+
+        expect(subject.available?).to be true
+      end
+
+      it 'returns false when the current time is after #available_until' do
+        subject.available_until = '17:00'
+
+        expect(subject.available?).to be false
+      end
+    end
+
+    context 'when #available_from is present but #available_until is blank' do
+      around(:each) do |example|
+        Timecop.freeze(Time.zone.parse('2000-01-01 18:00:00')) do
+          example.run
+        end
+      end
+
+      before(:each) do
+        subject.available_until = nil
+      end
+
+      it 'returns true when the current time is after #available_from' do
+        subject.available_from = '17:00'
+
+        expect(subject.available?).to be true
+      end
+
+      it 'returns false when the current time is before #available_from' do
+        subject.available_from = '19:00'
+
+        expect(subject.available?).to be false
       end
     end
 
