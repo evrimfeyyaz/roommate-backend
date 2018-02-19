@@ -35,4 +35,8 @@ class RoomServiceItem < ApplicationRecord
 
     ActionController::Base.helpers.image_url(thumbnail.versions[:two_x].url)
   end
+
+  def available?
+    room_service_categories.any?(&:available?)
+  end
 end
