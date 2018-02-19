@@ -12,7 +12,7 @@ class RoomServiceCategory < ApplicationRecord
     as_hours_and_minutes(self[:available_until])
   end
 
-  def available?
+  def available_at_the_moment?
     return true if available_from.blank? && available_until.blank?
 
     current_time = as_hours_and_minutes(Time.current)

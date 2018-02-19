@@ -28,7 +28,7 @@ describe RoomServiceCategory do
     end
   end
 
-  describe '#available?' do
+  describe '#available_at_the_moment?' do
     around(:each) do |example|
       # Trying a time zone apart from UTC to make sure it works properly anyways.
       Time.use_zone('Hawaii') do
@@ -44,7 +44,7 @@ describe RoomServiceCategory do
           subject.available_from  = 1.hour.ago
           subject.available_until = 1.hour.from_now
 
-          expect(subject.available?).to be true
+          expect(subject.available_at_the_moment?).to be true
         end
       end
 
@@ -53,7 +53,7 @@ describe RoomServiceCategory do
           subject.available_from  = 1.hour.from_now
           subject.available_until = 2.hours.from_now
 
-          expect(subject.available?).to be false
+          expect(subject.available_at_the_moment?).to be false
         end
       end
     end
@@ -63,7 +63,7 @@ describe RoomServiceCategory do
         subject.available_from  = nil
         subject.available_until = nil
 
-        expect(subject.available?).to be true
+        expect(subject.available_at_the_moment?).to be true
       end
     end
 
@@ -81,13 +81,13 @@ describe RoomServiceCategory do
       it 'returns true when the current time is before #available_until' do
         subject.available_until = '19:00'
 
-        expect(subject.available?).to be true
+        expect(subject.available_at_the_moment?).to be true
       end
 
       it 'returns false when the current time is after #available_until' do
         subject.available_until = '17:00'
 
-        expect(subject.available?).to be false
+        expect(subject.available_at_the_moment?).to be false
       end
     end
 
@@ -105,13 +105,13 @@ describe RoomServiceCategory do
       it 'returns true when the current time is after #available_from' do
         subject.available_from = '17:00'
 
-        expect(subject.available?).to be true
+        expect(subject.available_at_the_moment?).to be true
       end
 
       it 'returns false when the current time is before #available_from' do
         subject.available_from = '19:00'
 
-        expect(subject.available?).to be false
+        expect(subject.available_at_the_moment?).to be false
       end
     end
 
@@ -122,7 +122,7 @@ describe RoomServiceCategory do
           subject.available_until = Time.zone.parse('2000-01-01 03:00:00')
 
           Timecop.freeze(Time.zone.parse('2000-01-01 22:00:00')) do
-            expect(subject.available?).to be true
+            expect(subject.available_at_the_moment?).to be true
           end
         end
       end
@@ -133,7 +133,7 @@ describe RoomServiceCategory do
           subject.available_until = Time.zone.parse('2000-01-01 03:00:00')
 
           Timecop.freeze(Time.zone.parse('2000-01-01 4:00:00')) do
-            expect(subject.available?).to be false
+            expect(subject.available_at_the_moment?).to be false
           end
         end
       end

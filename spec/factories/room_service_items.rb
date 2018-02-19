@@ -17,6 +17,18 @@ FactoryBot.define do
       end
     end
 
+    trait :available_at_the_moment do
+      after(:build) do |item|
+        item.room_service_categories << build(:room_service_category, :available_at_the_moment)
+      end
+    end
+
+    trait :unavailable_at_the_moment do
+      after(:build) do |item|
+        item.room_service_categories << build(:room_service_category, :unavailable_at_the_moment)
+      end
+    end
+
     factory :room_service_item_with_choices do
       transient do
         choices_count 2
