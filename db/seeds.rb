@@ -1,5 +1,5 @@
 room_service_categories = [
-  { title: 'Breakfast' },
+  { title: 'Breakfast', available_from: '06:00', available_until: '11:00' },
   { title: 'Starters and Salads' },
   { title: 'Mains' },
   { title: 'Grills' },
