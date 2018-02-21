@@ -45,4 +45,24 @@ describe RoomServiceItem do
       expect(item.thumbnail_2x).to be_nil
     end
   end
+
+  describe '#available_at_the_moment?' do
+    it "is true when at least one of the item's categories is available at the moment" do
+      available_category   = build(:room_service_category, :available_at_the_moment)
+      unavailable_category = build(:room_service_category, :unavailable_at_the_moment)
+
+      subject.room_service_categories = [available_category, unavailable_category]
+
+      expect(subject.available_at_the_moment?).to be true
+    end
+
+    it "is false when all of the item's categories are unavailable at the moment" do
+      unavailable_category1 = build(:room_service_category, :unavailable_at_the_moment)
+      unavailable_category2 = build(:room_service_category, :unavailable_at_the_moment)
+
+      subject.room_service_categories = [unavailable_category1, unavailable_category2]
+
+      expect(subject.available_at_the_moment?).to be false
+    end
+  end
 end

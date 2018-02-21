@@ -81,4 +81,24 @@ describe RoomServiceCartItem do
                                .with_message_symbol(:more_than_maximum_number_of_selections_made)
     end
   end
+
+  describe 'validate item is available at the moment' do
+    it 'is valid when the associated item is available' do
+      subject.room_service_item = build(:room_service_item, :available_at_the_moment)
+
+      subject.validate
+
+      expect(subject).not_to have_validation_error_on(:room_service_item)
+                               .with_message_symbol(:unavailable_at_the_moment)
+    end
+
+    it 'is invalid when the associated item is unavailable' do
+      subject.room_service_item = build(:room_service_item, :unavailable_at_the_moment)
+
+      subject.validate
+
+      expect(subject).to have_validation_error_on(:room_service_item)
+                           .with_message_symbol(:unavailable_at_the_moment)
+    end
+  end
 end
