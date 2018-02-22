@@ -17,6 +17,7 @@ gem 'graphiql-rails', '~> 1.4', '>= 1.4.8'
 gem 'faker', '~> 1.8', '>= 1.8.7'
 gem 'carrierwave', '~> 1.2', '>= 1.2.2'
 gem 'mini_magick', '~> 4.8'
+gem 'acts_as_tenant', '~> 0.4.2'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
