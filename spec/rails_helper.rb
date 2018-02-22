@@ -15,6 +15,9 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
+# Acts as Tenant
+require 'acts_as_tenant'
+
 # Require matchers
 require 'support/have_validation_error_matcher'
 

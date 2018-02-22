@@ -1,4 +1,6 @@
 class RoomServiceCategory < ApplicationRecord
+  acts_as_tenant :hotel
+
   has_many :room_service_categories_items
   has_many :room_service_items, through: :room_service_categories_items
 

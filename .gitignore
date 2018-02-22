@@ -26,3 +26,6 @@ coverage
 
 # Public uploads.
 /public/uploads
+
+# RSpec
+/spec/examples.txt

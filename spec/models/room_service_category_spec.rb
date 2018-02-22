@@ -6,6 +6,16 @@ describe RoomServiceCategory do
 
   it { should validate_presence_of(:title) }
 
+  describe 'belongs to a tenant' do
+    context 'when no tenant is set' do
+      it 'raises an error' do
+        expect {
+          RoomServiceCategory.first
+        }.to raise_error(ActsAsTenant::Errors::NoTenantSet)
+      end
+    end
+  end
+
   describe '#available_from' do
     it 'returns the time in HH:MM format' do
       Timecop.freeze(Time.zone.parse('2000-01-01 4:00:00')) do
