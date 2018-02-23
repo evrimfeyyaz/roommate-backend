@@ -17,6 +17,7 @@ require 'rspec/rails'
 
 # Acts as Tenant
 require 'acts_as_tenant'
+require 'support/acts_as_tenant'
 
 # Require matchers
 require 'support/have_validation_error_matcher'
