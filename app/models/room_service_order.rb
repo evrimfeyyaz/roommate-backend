@@ -1,4 +1,6 @@
 class RoomServiceOrder < ApplicationRecord
+  acts_as_tenant :hotel
+
   has_many :room_service_cart_items
 
   validates_length_of :special_request, maximum: 255

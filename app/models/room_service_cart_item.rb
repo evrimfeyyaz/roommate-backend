@@ -1,4 +1,6 @@
 class RoomServiceCartItem < ApplicationRecord
+  acts_as_tenant :hotel
+
   belongs_to :room_service_order
   belongs_to :room_service_item
   has_many :room_service_cart_items_item_choice_options

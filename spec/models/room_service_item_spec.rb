@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe RoomServiceItem do
+  it_behaves_like 'a tenant model'
+
   it { should validate_presence_of :title }
   it { should validate_numericality_of(:price).is_greater_than_or_equal_to(0) }
 

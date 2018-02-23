@@ -1,4 +1,6 @@
 class RoomServiceItem < ApplicationRecord
+  acts_as_tenant :hotel
+
   mount_uploader :image, ItemImageUploader
   mount_uploader :thumbnail, ItemThumbnailUploader
 

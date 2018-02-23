@@ -2,24 +2,11 @@ require 'rails_helper'
 require 'timecop'
 
 describe RoomServiceCategory do
+  it_behaves_like 'a tenant model'
+
   it { should have_many(:room_service_items).through(:room_service_categories_items) }
 
   it { should validate_presence_of(:title) }
-
-  describe 'belongs to a tenant' do
-    context 'when no tenant is set' do
-      it 'raises an error' do
-        current_tenant = ActsAsTenant.current_tenant
-        ActsAsTenant.current_tenant = nil
-
-        expect {
-          RoomServiceCategory.first
-        }.to raise_error(ActsAsTenant::Errors::NoTenantSet)
-
-        ActsAsTenant.current_tenant = current_tenant
-      end
-    end
-  end
 
   describe '#available_from' do
     it 'returns the time in HH:MM format' do
