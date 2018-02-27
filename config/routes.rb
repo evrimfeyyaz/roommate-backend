@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   root to: 'admin#index'
 
-  # Admin
-  devise_for :admins
+  # Admin Users
+  devise_for :admin_users
 
   # GraphQL API
   mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/graphql' if Rails.env.development?
