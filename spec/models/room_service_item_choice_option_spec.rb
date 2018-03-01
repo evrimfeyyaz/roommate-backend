@@ -3,6 +3,7 @@ require 'rails_helper'
 describe RoomServiceItemChoiceOption do
   it_behaves_like 'a tenant model'
 
+  it { should belong_to(:hotel) }
   it { should belong_to(:room_service_item_choice) }
 
   it { should validate_presence_of :title }

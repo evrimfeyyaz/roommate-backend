@@ -4,6 +4,7 @@ class RoomServiceItem < ApplicationRecord
   mount_uploader :image, ItemImageUploader
   mount_uploader :thumbnail, ItemThumbnailUploader
 
+  belongs_to :hotel
   has_many :room_service_categories_items
   has_many :room_service_categories, through: :room_service_categories_items
   has_many :room_service_item_choices_items

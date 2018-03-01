@@ -3,6 +3,7 @@ require 'rails_helper'
 describe RoomServiceOrder do
   it_behaves_like 'a tenant model'
 
+  it { should belong_to(:hotel) }
   it { should have_many(:room_service_cart_items) }
 
   it { should validate_length_of(:special_request).is_at_most(255) }
