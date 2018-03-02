@@ -30,4 +30,20 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  helpers:
+    label:
+      room_service_category:
+        room_service_items: Items
+      room_service_item:
+        room_service_categories: Categories
+        room_service_item_choices: Choices
+        room_service_item_tags: Tags
+      room_service_item_choice:
+        room_service_item_choice_options: Options
+        room_service_items: Items That Have This Choice
+      room_service_item_choice_option:
+        room_service_item_choice: Choice
+      room_service_item_tag:
+        room_service_items: Items Using Tag
+      room_service_order:
+        room_service_cart_items: Cart Items

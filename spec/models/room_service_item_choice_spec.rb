@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe RoomServiceItemChoice do
+  it_behaves_like 'a tenant model'
+
   it { should have_many(:room_service_items).through(:room_service_item_choices_items) }
   it { should have_many(:room_service_item_choice_options) }
   it { should belong_to(:default_option) }

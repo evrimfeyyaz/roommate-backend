@@ -2,6 +2,8 @@ require 'rails_helper'
 require 'timecop'
 
 describe RoomServiceCategory do
+  it_behaves_like 'a tenant model'
+
   it { should have_many(:room_service_items).through(:room_service_categories_items) }
 
   it { should validate_presence_of(:title) }

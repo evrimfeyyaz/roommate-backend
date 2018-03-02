@@ -1,4 +1,6 @@
 class RoomServiceItemChoiceOption < ApplicationRecord
+  acts_as_tenant :hotel
+
   belongs_to :room_service_item_choice
 
   validates_presence_of :title

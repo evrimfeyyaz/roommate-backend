@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe RoomServiceCartItem do
+  it_behaves_like 'a tenant model'
+
   it { should belong_to(:room_service_order) }
   it { should belong_to(:room_service_item) }
   it { should have_many(:selected_options) }

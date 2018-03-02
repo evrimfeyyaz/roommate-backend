@@ -17,6 +17,11 @@ gem 'graphiql-rails', '~> 1.4', '>= 1.4.8'
 gem 'faker', '~> 1.8', '>= 1.8.7'
 gem 'carrierwave', '~> 1.2', '>= 1.2.2'
 gem 'mini_magick', '~> 4.8'
+gem 'acts_as_tenant', '~> 0.4.2'
+gem 'devise', '~> 4.4', '>= 4.4.1'
+gem 'administrate', '~> 0.9.0'
+# TODO: Change this back to the original release when they merge the changes.
+gem 'administrate-field-carrierwave', '~> 0.3.0', git: 'git@github.com:evrimfeyyaz/administrate-field-carrierwave.git'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

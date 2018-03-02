@@ -15,8 +15,15 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
+# Acts as Tenant
+require 'acts_as_tenant'
+require 'support/acts_as_tenant'
+
 # Require matchers
 require 'support/have_validation_error_matcher'
+
+# Require shared examples
+Dir[Rails.root.join('spec/models/shared_examples/**/*.rb')].each { |f| require f }
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
