@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:evrimfeyyaz/administrate-field-carrierwave.git
+  remote: https://github.com/evrimfeyyaz/administrate-field-carrierwave.git
   revision: bfe91c3c0e60ade753aab0bfc377db5f15210356
   specs:
     administrate-field-carrierwave (0.3.0)
