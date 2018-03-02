@@ -13,6 +13,8 @@ class RoomServiceItemTagDashboard < Administrate::BaseDashboard
     room_service_items: Field::HasMany,
     id: Field::String.with_options(searchable: false),
     title: Field::String,
+    created_at: Field::DateTime,
+    updated_at: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -21,36 +23,31 @@ class RoomServiceItemTagDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :hotel,
-    :room_service_item_tags_items,
-    :room_service_items,
-    :id,
+    :title
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :hotel,
-    :room_service_item_tags_items,
+    :title,
     :room_service_items,
     :id,
-    :title,
+    :created_at,
+    :updated_at
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :hotel,
-    :room_service_item_tags_items,
-    :room_service_items,
     :title,
+    :room_service_items,
   ].freeze
 
   # Overwrite this method to customize how room service item tags are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(room_service_item_tag)
-  #   "RoomServiceItemTag ##{room_service_item_tag.id}"
-  # end
+  def display_resource(room_service_item_tag)
+    room_service_item_tag.title
+  end
 end

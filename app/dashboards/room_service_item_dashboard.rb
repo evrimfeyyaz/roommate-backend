@@ -21,8 +21,16 @@ class RoomServiceItemDashboard < Administrate::BaseDashboard
     updated_at: Field::DateTime,
     price: Field::String.with_options(searchable: false),
     description: Field::Text,
-    image: Field::String,
-    thumbnail: Field::String,
+    image: Field::Carrierwave.with_options(
+      image: :one_x,
+      image_on_index: false,
+      remove: true
+    ),
+    thumbnail: Field::Carrierwave.with_options(
+      image: :one_x,
+      image_on_index: true,
+      remove: true
+    ),
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -31,46 +39,38 @@ class RoomServiceItemDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :hotel,
-    :room_service_categories_items,
-    :room_service_categories,
-    :room_service_item_choices_items,
+    :thumbnail,
+    :title,
+    :description,
+    :price,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :hotel,
-    :room_service_categories_items,
-    :room_service_categories,
-    :room_service_item_choices_items,
-    :room_service_item_choices,
-    :room_service_item_tags_items,
-    :room_service_item_tags,
-    :id,
     :title,
-    :created_at,
-    :updated_at,
     :price,
     :description,
-    :image,
+    :room_service_categories,
+    :room_service_item_choices,
+    :room_service_item_tags,
     :thumbnail,
+    :image,
+    :id,
+    :created_at,
+    :updated_at,
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :hotel,
-    :room_service_categories_items,
-    :room_service_categories,
-    :room_service_item_choices_items,
-    :room_service_item_choices,
-    :room_service_item_tags_items,
-    :room_service_item_tags,
     :title,
     :price,
     :description,
+    :room_service_categories,
+    :room_service_item_choices,
+    :room_service_item_tags,
     :image,
     :thumbnail,
   ].freeze
@@ -78,7 +78,11 @@ class RoomServiceItemDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how room service items are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(room_service_item)
-  #   "RoomServiceItem ##{room_service_item.id}"
-  # end
+  def display_resource(room_service_item)
+    room_service_item.title
+  end
+
+  def permitted_attributes
+    super + [:remove_thumbnail, :remove_image]
+  end
 end

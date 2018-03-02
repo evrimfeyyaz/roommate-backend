@@ -12,6 +12,9 @@ class HotelDashboard < Administrate::BaseDashboard
     time_zone: TimeZoneField,
     currency: Field::String,
     subdomain: Field::String,
+    id: Field::String.with_options(searchable: false),
+    created_at: Field::DateTime,
+    updated_at: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -33,6 +36,9 @@ class HotelDashboard < Administrate::BaseDashboard
     :time_zone,
     :currency,
     :subdomain,
+    :id,
+    :created_at,
+    :updated_at
   ].freeze
 
   # FORM_ATTRIBUTES
