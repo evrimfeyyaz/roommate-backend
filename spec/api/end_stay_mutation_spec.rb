@@ -8,7 +8,7 @@ describe 'endStay mutation' do
       mutation endStay($id: ID!) {
         endStay(id: $id) {
           id
-          createdAt
+          beganAt
           endedAt
           roomNumber
         }
@@ -23,7 +23,7 @@ describe 'endStay mutation' do
     returned_stay = result['data']['endStay']
 
     expect(returned_stay['id']).to eq(stay.id)
-    expect(returned_stay['createdAt']).to eq(stay.created_at.to_s)
+    expect(returned_stay['beganAt']).to eq(stay.began_at.to_s)
     expect(returned_stay['endedAt']).to eq(stay.ended_at.to_s)
     expect(returned_stay['roomNumber']).to eq(stay.room_number)
   end

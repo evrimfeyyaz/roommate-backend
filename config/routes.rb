@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   namespace :hotel_admin do
     root to: 'room_service_categories#index'
 
+    resources :stays
     resources :room_service_categories
     resources :room_service_items
     resources :room_service_item_choices

@@ -8,6 +8,6 @@ Mutations::CreateStay = GraphQL::Field.define do
   resolve Rescuable.new ->(_obj, args, _ctx) {
     room_number = args[:room_number]
 
-    Stay.create!(room_number: room_number)
+    Stay.create!(room_number: room_number, began_at: Time.current)
   }
 end
