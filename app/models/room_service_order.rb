@@ -6,7 +6,6 @@ class RoomServiceOrder < ApplicationRecord
 
   validates_length_of :special_request, maximum: 255
   validates_presence_of :payment_option
-  validates_presence_of :room_number
 
   enum payment_option: %i[room_bill credit_card_on_delivery cash_on_delivery]
 
