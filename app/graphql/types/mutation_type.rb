@@ -4,4 +4,5 @@ Types::MutationType = GraphQL::ObjectType.define do
   field :createRoomServiceOrder, Mutations::CreateRoomServiceOrder
   field :createTemporaryToken, Mutations::CreateTemporaryToken
   field :createStay, Mutations::CreateStay
+  field :endStay, Mutations::EndStay
 end
