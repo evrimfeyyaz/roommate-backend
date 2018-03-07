@@ -35,5 +35,6 @@ RoomServiceOrderInputType = GraphQL::InputObjectType.define do
   argument :cartItems, !types[!RoomServiceCartItemInputType], as: :room_service_cart_items
   argument :specialRequest, types.String, as: :special_request
   argument :paymentOption, !types.String, as: :payment_option
+  argument :stayId, !types.ID, as: :stay_id
   argument :roomNumber, !types.String, as: :room_number
 end
