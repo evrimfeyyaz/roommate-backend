@@ -9,6 +9,7 @@ class StayDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::String.with_options(searchable: false),
+    room_service_orders: Field::HasMany,
     room_number: Field::String,
     began_at: Field::DateTime,
     ended_at: Field::DateTime,
@@ -25,6 +26,7 @@ class StayDashboard < Administrate::BaseDashboard
     :room_number,
     :began_at,
     :ended_at,
+    :room_service_orders,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -33,6 +35,7 @@ class StayDashboard < Administrate::BaseDashboard
     :room_number,
     :began_at,
     :ended_at,
+    :room_service_orders,
     :id,
     :created_at,
     :updated_at,

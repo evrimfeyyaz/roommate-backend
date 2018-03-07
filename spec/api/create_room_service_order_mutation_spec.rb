@@ -65,4 +65,6 @@ describe 'createRoomServiceOrder mutation' do
     returned_selected_option_ids = returned_cart_item['selectedOptions'].map { |o| o['id'] }
     expect(returned_selected_option_ids).to eq(selected_option_ids)
   end
+
+  # TODO: As we're getting the room number from the associated stay, what happens if the tablet is moved to another room in the middle of a stay? We should handle that edge case in the future.
 end
