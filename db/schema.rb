@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180303143736) do
+ActiveRecord::Schema.define(version: 20180307093922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,6 +150,7 @@ ActiveRecord::Schema.define(version: 20180303143736) do
     t.string "special_request"
     t.integer "payment_option"
     t.uuid "hotel_id"
+    t.string "room_number"
     t.index ["hotel_id"], name: "index_room_service_orders_on_hotel_id"
   end
 

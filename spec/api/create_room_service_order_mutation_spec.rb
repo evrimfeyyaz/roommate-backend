@@ -7,6 +7,7 @@ describe 'createRoomServiceOrder mutation' do
     quantity            = 2
     special_request     = 'Please bring a bucket of ice.'
     payment_option      = 'room_bill'
+    room_number         = '42'
     selected_option_ids = [item.room_service_item_choices.first.room_service_item_choice_options.first.id]
 
     mutation_string = <<~GRAPHQL
@@ -15,6 +16,7 @@ describe 'createRoomServiceOrder mutation' do
           id
           specialRequest
           paymentOption
+          roomNumber
           cartItems {
             id
             quantity
@@ -36,7 +38,8 @@ describe 'createRoomServiceOrder mutation' do
                              'quantity'          => quantity,
                              'selectedOptionIds' => selected_option_ids }],
       'specialRequest' => special_request,
-      'paymentOption'  => payment_option
+      'paymentOption'  => payment_option,
+      'roomNumber'     => room_number
     }
 
     result = RoommateBackendSchema.execute(mutation_string,
@@ -52,6 +55,7 @@ describe 'createRoomServiceOrder mutation' do
     expect(returned_order['id']).to eq(created_order.id)
     expect(returned_order['specialRequest']).to eq(special_request)
     expect(returned_order['paymentOption']).to eq(payment_option)
+    expect(returned_order['roomNumber']).to eq(room_number)
     expect(returned_order['cartItems'].count).to eq(1)
 
     expect(returned_cart_item['id']).to eq(created_cart_item.id)
