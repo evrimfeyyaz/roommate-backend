@@ -10,14 +10,8 @@ describe 'createRoomServiceOrder mutation' do
     selected_option_ids = [item.room_service_item_choices.first.room_service_item_choice_options.first.id]
 
     mutation_string = <<~GRAPHQL
-      mutation {
-        createRoomServiceOrder(order: {
-          cartItems: [
-            { itemId: "#{item.id}", quantity: #{quantity}, selectedOptionIds: #{selected_option_ids} }
-          ],
-          specialRequest: "#{special_request}",
-          paymentOption: "#{payment_option}"
-        }) {
+      mutation createRoomServiceOrder($order: RoomServiceOrderInputType!) {
+        createRoomServiceOrder(order: $order) {
           id
           specialRequest
           paymentOption
@@ -37,7 +31,16 @@ describe 'createRoomServiceOrder mutation' do
       }
     GRAPHQL
 
-    result = RoommateBackendSchema.execute(mutation_string)
+    order_variable = {
+      'cartItems'      => [{ 'itemId'            => item.id,
+                             'quantity'          => quantity,
+                             'selectedOptionIds' => selected_option_ids }],
+      'specialRequest' => special_request,
+      'paymentOption'  => payment_option
+    }
+
+    result = RoommateBackendSchema.execute(mutation_string,
+                                           variables: { 'order' => order_variable })
     expect(result['errors']).to be_nil
 
     returned_order     = result['data']['createRoomServiceOrder']
