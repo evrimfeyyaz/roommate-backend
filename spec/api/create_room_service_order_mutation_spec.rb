@@ -8,19 +8,15 @@ describe 'createRoomServiceOrder mutation' do
     special_request     = 'Please bring a bucket of ice.'
     payment_option      = 'room_bill'
     selected_option_ids = [item.room_service_item_choices.first.room_service_item_choice_options.first.id]
+    stay                = create(:stay)
 
     mutation_string = <<~GRAPHQL
-      mutation {
-        createRoomServiceOrder(order: {
-          cartItems: [
-            { itemId: "#{item.id}", quantity: #{quantity}, selectedOptionIds: #{selected_option_ids} }
-          ],
-          specialRequest: "#{special_request}",
-          paymentOption: "#{payment_option}"
-        }) {
+      mutation createRoomServiceOrder($order: RoomServiceOrderInputType!) {
+        createRoomServiceOrder(order: $order) {
           id
           specialRequest
           paymentOption
+          stayId
           cartItems {
             id
             quantity
@@ -37,7 +33,17 @@ describe 'createRoomServiceOrder mutation' do
       }
     GRAPHQL
 
-    result = RoommateBackendSchema.execute(mutation_string)
+    order_variable = {
+      'cartItems'      => [{ 'itemId'            => item.id,
+                             'quantity'          => quantity,
+                             'selectedOptionIds' => selected_option_ids }],
+      'specialRequest' => special_request,
+      'paymentOption'  => payment_option,
+      'stayId'         => stay.id
+    }
+
+    result = RoommateBackendSchema.execute(mutation_string,
+                                           variables: { 'order' => order_variable })
     expect(result['errors']).to be_nil
 
     returned_order     = result['data']['createRoomServiceOrder']
@@ -49,6 +55,7 @@ describe 'createRoomServiceOrder mutation' do
     expect(returned_order['id']).to eq(created_order.id)
     expect(returned_order['specialRequest']).to eq(special_request)
     expect(returned_order['paymentOption']).to eq(payment_option)
+    expect(returned_order['stayId']).to eq(stay.id)
     expect(returned_order['cartItems'].count).to eq(1)
 
     expect(returned_cart_item['id']).to eq(created_cart_item.id)
@@ -58,4 +65,6 @@ describe 'createRoomServiceOrder mutation' do
     returned_selected_option_ids = returned_cart_item['selectedOptions'].map { |o| o['id'] }
     expect(returned_selected_option_ids).to eq(selected_option_ids)
   end
+
+  # TODO: As we're getting the room number from the associated stay, what happens if the tablet is moved to another room in the middle of a stay? We should handle that edge case in the future.
 end

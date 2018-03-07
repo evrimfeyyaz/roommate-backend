@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180303143736) do
+ActiveRecord::Schema.define(version: 20180307192359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,7 +150,19 @@ ActiveRecord::Schema.define(version: 20180303143736) do
     t.string "special_request"
     t.integer "payment_option"
     t.uuid "hotel_id"
+    t.uuid "stay_id"
     t.index ["hotel_id"], name: "index_room_service_orders_on_hotel_id"
+    t.index ["stay_id"], name: "index_room_service_orders_on_stay_id"
+  end
+
+  create_table "stays", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "room_number"
+    t.datetime "ended_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "hotel_id"
+    t.datetime "began_at"
+    t.index ["hotel_id"], name: "index_stays_on_hotel_id"
   end
 
   create_table "temporary_tokens", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -175,4 +187,6 @@ ActiveRecord::Schema.define(version: 20180303143736) do
   add_foreign_key "room_service_item_tags", "hotels"
   add_foreign_key "room_service_items", "hotels"
   add_foreign_key "room_service_orders", "hotels"
+  add_foreign_key "room_service_orders", "stays"
+  add_foreign_key "stays", "hotels"
 end

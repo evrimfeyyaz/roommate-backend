@@ -4,6 +4,7 @@ describe RoomServiceOrder do
   it_behaves_like 'a tenant model'
 
   it { should have_many(:room_service_cart_items) }
+  it { should belong_to(:stay) }
 
   it { should validate_length_of(:special_request).is_at_most(255) }
   it { should validate_presence_of(:payment_option) }
