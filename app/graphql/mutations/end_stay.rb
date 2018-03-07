@@ -9,7 +9,7 @@ Mutations::EndStay = GraphQL::Field.define do
     id = args[:id]
 
     stay = Stay.find(id)
-    stay.update(end_date: Date.today)
+    stay.update(ended_at: Time.current)
     stay
   }
 end

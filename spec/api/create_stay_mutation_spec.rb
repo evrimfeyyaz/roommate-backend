@@ -8,8 +8,7 @@ describe 'createStay mutation' do
       mutation createStay($roomNumber: String!) {
         createStay(roomNumber: $roomNumber) {
           id
-          beginDate
-          endDate
+          createdAt
           roomNumber
         }
       }
@@ -24,8 +23,7 @@ describe 'createStay mutation' do
     created_stay = Stay.last
 
     expect(returned_stay['id']).to eq(created_stay.id)
-    expect(returned_stay['beginDate']).to eq(Date.today.to_s)
-    expect(returned_stay['endDate']).to eq(nil)
+    expect(returned_stay['createdAt']).to eq(created_stay.created_at.to_s)
     expect(returned_stay['roomNumber']).to eq(room_number)
   end
 end

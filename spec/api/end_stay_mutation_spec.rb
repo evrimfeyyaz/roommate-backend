@@ -8,8 +8,8 @@ describe 'endStay mutation' do
       mutation endStay($id: ID!) {
         endStay(id: $id) {
           id
-          beginDate
-          endDate
+          createdAt
+          endedAt
           roomNumber
         }
       }
@@ -19,13 +19,12 @@ describe 'endStay mutation' do
                                            variables: { 'id' => stay.id })
     expect(result['errors']).to be_nil
 
+    stay.reload
     returned_stay = result['data']['endStay']
 
     expect(returned_stay['id']).to eq(stay.id)
-    expect(returned_stay['beginDate']).to eq(stay.begin_date.to_s)
-    expect(returned_stay['endDate']).to eq(Date.today.to_s)
+    expect(returned_stay['createdAt']).to eq(stay.created_at.to_s)
+    expect(returned_stay['endedAt']).to eq(stay.ended_at.to_s)
     expect(returned_stay['roomNumber']).to eq(stay.room_number)
   end
-
-  # TODO: Add a test to make sure that the end date is based on the hotel's time zone.
 end

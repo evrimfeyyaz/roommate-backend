@@ -2,7 +2,7 @@ Types::StayType = GraphQL::ObjectType.define do
   name 'Stay'
 
   field :id, !types.ID
-  field :beginDate, !types.String, property: :begin_date
-  field :endDate, types.String, property: :end_date
+  field :createdAt, !types.String, property: :created_at
+  field :endedAt, types.String, property: :ended_at
   field :roomNumber, !types.String, property: :room_number
 end
